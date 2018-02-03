@@ -68,6 +68,7 @@ class MazeProblem:
         print("INITIAL PT:", self.initial)
         print("GOAL PTS:", self.goals)
         print("DOING INITIAL PT TRANSITIONS:", self.transitions(self.initial))
+        print("MANHATTAN DISTANCE OF INITIAL:", self.heuristic(self.initial))
         # print("GOAL PTS:", self.maze[3][1])
 
 
@@ -81,8 +82,12 @@ class MazeProblem:
     # Implements the Manhattan Distance Heuristic, which (given a state)
     # provides the cell-distance to the nearest goal state
     def heuristic(self, state):
-        # TODO: Implement as intended
-        return 0
+        # TODO: STILL GOTTA DO IT
+        distances = []
+        for cell in self.goals:
+            distances.append(abs(state[0] - cell[0]) + abs(state[1] - cell[1]))
+
+        return min(distances)
 
     # transitions returns a list of tuples in the format:
     # [(action1, cost_of_action1, result(action1, s), ...]
@@ -90,14 +95,6 @@ class MazeProblem:
     # as the next state the action leads to
     def transitions(self, state):
         # TODO: Implement as intended
-        '''=== Transitions ===
-        Given some state s, the transitions will be represented as a list of tuples
-        of the format:
-        [(action1, cost_of_action1, result(action1, s)), ...]
-        For example, if an agent is at state (1, 1), and can only move right and down
-        into clear tiles (.), then the transitions for that s = (1, 1) would be:
-        [("R", 1, (2, 1)), ("D", 1, (1, 2))]
-        '''
         transitions_list = []
         maze_col = state[0]
         maze_row = state[1]
