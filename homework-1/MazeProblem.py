@@ -67,6 +67,9 @@ class MazeProblem:
         print("\n".join(self.maze))
         print("INITIAL PT:", self.initial)
         print("GOAL PTS:", self.goals)
+        print("DOING INITIAL PT TRANSITIONS:", self.transitions(self.initial))
+        # print("GOAL PTS:", self.maze[3][1])
+
 
     # goalTest is parameterized by a state, and
     # returns True if the given state is a goal, False otherwise
@@ -87,7 +90,36 @@ class MazeProblem:
     # as the next state the action leads to
     def transitions(self, state):
         # TODO: Implement as intended
-        return []
+        '''=== Transitions ===
+        Given some state s, the transitions will be represented as a list of tuples
+        of the format:
+        [(action1, cost_of_action1, result(action1, s)), ...]
+        For example, if an agent is at state (1, 1), and can only move right and down
+        into clear tiles (.), then the transitions for that s = (1, 1) would be:
+        [("R", 1, (2, 1)), ("D", 1, (1, 2))]
+        '''
+        transitions_list = []
+        maze_col = state[0]
+        maze_row = state[1]
+        move_right = maze_col + 1
+        move_left = maze_col - 1
+        move_up = maze_row - 1
+        move_down = maze_row + 1
+
+        if move_right < len(self.maze[maze_row]):
+            if self.maze[maze_row][move_right] != 'X':
+                transitions_list.append( ("R", self.cost((move_right, maze_row)), (move_right, maze_row)) )
+        if move_left >= 0:
+            if self.maze[maze_row][move_left] != 'X':
+                transitions_list.append( ("L", self.cost((move_left, maze_row)), (move_left, maze_row)) )
+        if move_up >= 0:
+            if self.maze[move_up][maze_col] != 'X':
+                transitions_list.append( ("U", self.cost((maze_col, move_up)), (maze_col, move_up)) )
+        if move_down < len(self.maze):
+            if self.maze[move_down][maze_col] != 'X':
+                transitions_list.append( ("D", self.cost((maze_col, move_down)), (maze_col, move_down)) )
+
+        return transitions_list
 
     # cost returns the cost of moving onto the given state, and employs
     # the MazeProblem's costMap
