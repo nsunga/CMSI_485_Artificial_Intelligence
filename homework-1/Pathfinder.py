@@ -17,9 +17,26 @@ class Pathfinder:
     @staticmethod
     def solve(problem):
         # TODO: Implement A* graph search!
-        heap = []
-        #root = SearchTreeNode(problem.initial, None, None)
-        return []
+        priority_queue = []
+        root = SearchTreeNode(problem.initial, None, None, 0, 0)
+        temp_node = root
+        #print("INSIDE: SOLVE")
+        while not problem.goalTest(temp_node.state):
+        #    print("iterate")
+            children_list = problem.transitions(temp_node.state)
+            for children in children_list:
+                heapq.heappush(priority_queue, SearchTreeNode(children[2], children[0], temp_node, children[1], problem.heuristic(children[2])))
+            temp_node = heapq.heappop(priority_queue)
+
+        path = []
+        #print("inside path")
+        while temp_node != root:
+            path.append(temp_node.action)
+            temp_node = temp_node.parent
+        #print("IS GOAL: ", problem.goalTest(temp_node))
+        path.reverse()
+        #print("PATH: ", path)
+        return path
 
 class PathfinderTests(unittest.TestCase):
     def test_maze1(self):
@@ -27,6 +44,7 @@ class PathfinderTests(unittest.TestCase):
         problem = MazeProblem(maze)
         soln = Pathfinder.solve(problem)
         solnTest = problem.solnTest(soln)
+        print(soln)
         self.assertTrue(solnTest[1])
         self.assertEqual(solnTest[0], 4)
 
@@ -35,6 +53,7 @@ class PathfinderTests(unittest.TestCase):
         problem = MazeProblem(maze)
         soln = Pathfinder.solve(problem)
         solnTest = problem.solnTest(soln)
+        print(soln)
         self.assertTrue(solnTest[1])
         self.assertEqual(solnTest[0], 4)
 
@@ -43,6 +62,7 @@ class PathfinderTests(unittest.TestCase):
         problem = MazeProblem(maze)
         soln = Pathfinder.solve(problem)
         solnTest = problem.solnTest(soln)
+        print(soln)
         self.assertTrue(solnTest[1])
         self.assertEqual(solnTest[0], 4)
 
@@ -50,6 +70,7 @@ class PathfinderTests(unittest.TestCase):
         maze = ["XXXXXX", "X....X", "X*.XXX", "X..XGX", "XXXXXX"]
         problem = MazeProblem(maze)
         soln = Pathfinder.solve(problem)
+        print(soln)
         self.assertFalse(soln)
 
 

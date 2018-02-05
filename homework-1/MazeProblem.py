@@ -67,8 +67,8 @@ class MazeProblem:
         print("\n".join(self.maze))
         print("INITIAL PT:", self.initial)
         print("GOAL PTS:", self.goals)
-        print("DOING INITIAL PT TRANSITIONS:", self.transitions(self.initial))
-        print("MANHATTAN DISTANCE OF INITIAL:", self.heuristic(self.initial))
+        # print("DOING INITIAL PT TRANSITIONS:", self.transitions(self.initial))
+        # print("MANHATTAN DISTANCE OF INITIAL:", self.heuristic(self.initial))
         # print("GOAL PTS:", self.maze[3][1])
 
 
