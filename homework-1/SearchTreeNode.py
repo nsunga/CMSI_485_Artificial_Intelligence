@@ -38,19 +38,19 @@ class SearchTreeNode:
 
     # TODO: Implement rich comparisons
     def __eq__(self, other_node):
-        return (self.totalCost + self.heuristicCost) == (other_node.totalCost + other.heuristicCost)
+        return (self.totalCost + self.heuristicCost) == (other_node.totalCost + other_node.heuristicCost)
 
     def __ne__(self, other_node):
-        return (self.totalCost + self.heuristicCost) != (other_node.totalCost + other.heuristicCost)
+        return (self.totalCost + self.heuristicCost) != (other_node.totalCost + other_node.heuristicCost)
 
     def __lt__(self, other_node):
-        return (self.totalCost + self.heuristicCost) < (other_node.totalCost + other.heuristicCost)
+        return (self.totalCost + self.heuristicCost) < (other_node.totalCost + other_node.heuristicCost)
 
     def __le__(self, other_node):
-        return (self.totalCost + self.heuristicCost) <= (other_node.totalCost + other.heuristicCost)
+        return (self.totalCost + self.heuristicCost) <= (other_node.totalCost + other_node.heuristicCost)
 
     def __gt__(self, other_node):
-        return (self.totalCost + self.heuristicCost) > (other_node.totalCost + other.heuristicCost)
+        return (self.totalCost + self.heuristicCost) > (other_node.totalCost + other_node.heuristicCost)
 
     def __ge__(self, other_node):
-        return (self.totalCost + self.heuristicCost) >= (other_node.totalCost + other.heuristicCost)
+        return (self.totalCost + self.heuristicCost) >= (other_node.totalCost + other_node.heuristicCost)
