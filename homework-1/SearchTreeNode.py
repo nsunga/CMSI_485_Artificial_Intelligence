@@ -27,7 +27,7 @@ The heuristic estimate of cost to be incurred from this node to the
 optimal solution
 '''
 class SearchTreeNode:
-    
+
     def __init__(self, state, action, parent, totalCost, heuristicCost):
         self.state = state
         self.action = action
@@ -35,6 +35,22 @@ class SearchTreeNode:
         self.children = []
         self.totalCost = totalCost
         self.heuristicCost = heuristicCost
-    
+
     # TODO: Implement rich comparisons
-    
+    def __eq__(self, other_node):
+        return (self.totalCost + self.heuristicCost) == (other_node.totalCost + other.heuristicCost)
+
+    def __ne__(self, other_node):
+        return (self.totalCost + self.heuristicCost) != (other_node.totalCost + other.heuristicCost)
+
+    def __lt__(self, other_node):
+        return (self.totalCost + self.heuristicCost) < (other_node.totalCost + other.heuristicCost)
+
+    def __le__(self, other_node):
+        return (self.totalCost + self.heuristicCost) <= (other_node.totalCost + other.heuristicCost)
+
+    def __gt__(self, other_node):
+        return (self.totalCost + self.heuristicCost) > (other_node.totalCost + other.heuristicCost)
+
+    def __ge__(self, other_node):
+        return (self.totalCost + self.heuristicCost) >= (other_node.totalCost + other.heuristicCost)

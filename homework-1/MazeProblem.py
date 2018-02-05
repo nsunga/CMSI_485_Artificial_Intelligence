@@ -82,7 +82,7 @@ class MazeProblem:
     # Implements the Manhattan Distance Heuristic, which (given a state)
     # provides the cell-distance to the nearest goal state
     def heuristic(self, state):
-        # TODO: STILL GOTTA DO IT
+        # TODO: STILL GOTTA DO IT, or i think its done..
         distances = []
         for cell in self.goals:
             distances.append(abs(state[0] - cell[0]) + abs(state[1] - cell[1]))
