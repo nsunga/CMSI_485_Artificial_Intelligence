@@ -75,9 +75,7 @@ class MazeProblem:
     # goalTest is parameterized by a state, and
     # returns True if the given state is a goal, False otherwise
     def goalTest(self, state):
-        if state in self.goals:
-            return True
-        return False
+        return state in self.goals
 
     # Implements the Manhattan Distance Heuristic, which (given a state)
     # provides the cell-distance to the nearest goal state

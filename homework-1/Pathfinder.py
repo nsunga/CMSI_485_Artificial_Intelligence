@@ -18,24 +18,36 @@ class Pathfinder:
     def solve(problem):
         # TODO: Implement A* graph search!
         priority_queue = []
-        root = SearchTreeNode(problem.initial, None, None, 0, 0)
+        my_set = []
+        root = SearchTreeNode(problem.initial, None, None, 0, problem.heuristic(problem.initial))
         temp_node = root
-        #print("INSIDE: SOLVE")
+        my_set.append(temp_node.state)
         while not problem.goalTest(temp_node.state):
-        #    print("iterate")
             children_list = problem.transitions(temp_node.state)
-            for children in children_list:
-                heapq.heappush(priority_queue, SearchTreeNode(children[2], children[0], temp_node, children[1], problem.heuristic(children[2])))
+            for every_tuple in children_list:
+                temp_node.children.append(SearchTreeNode(every_tuple[2], every_tuple[0], temp_node, every_tuple[1] + temp_node.totalCost, problem.heuristic(every_tuple[2])))
+            for child in temp_node.children:
+                heapq.heappush(priority_queue, child)
             temp_node = heapq.heappop(priority_queue)
+            # print("STATE: ", temp_node.state)
+            if temp_node.state not in my_set:
+                my_set.append(temp_node.state)
+                # print("appended")
+            else:
+                # print("popping")
+                while temp_node.state in my_set:
+                    if len(priority_queue) > 0:
+                        temp_node = heapq.heappop(priority_queue)
+                    else:
+                        return None
+                my_set.append(temp_node.state)
 
+        # print("WAS A GOAL")
         path = []
-        #print("inside path")
-        while temp_node != root:
+        while temp_node.state != root.state:
             path.append(temp_node.action)
             temp_node = temp_node.parent
-        #print("IS GOAL: ", problem.goalTest(temp_node))
         path.reverse()
-        #print("PATH: ", path)
         return path
 
 class PathfinderTests(unittest.TestCase):
