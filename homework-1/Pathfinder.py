@@ -37,14 +37,11 @@ class Pathfinder:
 
             temp_node = heapq.heappop(priority_queue)
 
-            if temp_node.state not in visited_states:
-                visited_states.append(temp_node.state)
-            else:
-                while temp_node.state in visited_states:
-                    if len(priority_queue) == 0: return None
-                    temp_node = heapq.heappop(priority_queue)
+            while temp_node.state in visited_states:
+                if len(priority_queue) == 0: return None
+                temp_node = heapq.heappop(priority_queue)
 
-                visited_states.append(temp_node.state)
+            visited_states.append(temp_node.state)
 
         path = []
         while temp_node.state != root.state:
