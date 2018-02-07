@@ -18,35 +18,39 @@ class Pathfinder:
     def solve(problem):
         # TODO: Implement A* graph search!
         priority_queue = []
-        my_set = []
-        root = SearchTreeNode(problem.initial, None, None, 0, problem.heuristic(problem.initial))
+        visited_states = []
+        root = SearchTreeNode(problem.initial, None, None, 0,
+                            problem.heuristic(problem.initial))
         temp_node = root
-        my_set.append(temp_node.state)
+        visited_states.append(temp_node.state)
         while not problem.goalTest(temp_node.state):
             children_list = problem.transitions(temp_node.state)
+
             for every_tuple in children_list:
-                temp_node.children.append(SearchTreeNode(every_tuple[2], every_tuple[0], temp_node, every_tuple[1] + temp_node.totalCost, problem.heuristic(every_tuple[2])))
+                temp_node.children.append(SearchTreeNode(every_tuple[2],
+                                        every_tuple[0], temp_node,
+                                        every_tuple[1] + temp_node.totalCost,
+                                        problem.heuristic(every_tuple[2])))
+
             for child in temp_node.children:
                 heapq.heappush(priority_queue, child)
-            temp_node = heapq.heappop(priority_queue)
-            # print("STATE: ", temp_node.state)
-            if temp_node.state not in my_set:
-                my_set.append(temp_node.state)
-                # print("appended")
-            else:
-                # print("popping")
-                while temp_node.state in my_set:
-                    if len(priority_queue) > 0:
-                        temp_node = heapq.heappop(priority_queue)
-                    else:
-                        return None
-                my_set.append(temp_node.state)
 
-        # print("WAS A GOAL")
+            temp_node = heapq.heappop(priority_queue)
+
+            if temp_node.state not in visited_states:
+                visited_states.append(temp_node.state)
+            else:
+                while temp_node.state in visited_states:
+                    if len(priority_queue) == 0: return None
+                    temp_node = heapq.heappop(priority_queue)
+
+                visited_states.append(temp_node.state)
+
         path = []
         while temp_node.state != root.state:
             path.append(temp_node.action)
             temp_node = temp_node.parent
+
         path.reverse()
         return path
 
@@ -85,6 +89,39 @@ class PathfinderTests(unittest.TestCase):
         print(soln)
         self.assertFalse(soln)
 
+    def test_maze5(self):
+        maze = ["XXXXXX", "X....X", "X*.XXX", "X...GX", "XXXXXX"]
+        problem = MazeProblem(maze)
+        soln = Pathfinder.solve(problem)
+        solnTest = problem.solnTest(soln)
+        print(soln)
+        self.assertTrue(solnTest[1])
+        self.assertEqual(solnTest[0], 4)
+
+    def test_maze6(self):
+        maze = ["XXXXX", "X.MGX", "X.MMX", "X*..X", "XXXXX"]
+        problem = MazeProblem(maze)
+        soln = Pathfinder.solve(problem)
+        solnTest = problem.solnTest(soln)
+        print(soln)
+        self.assertTrue(solnTest[1])
+        self.assertEqual(solnTest[0], 6)
+
+    def test_maze7(self):
+        maze = ["XXXXX", "X.MGX", "X.MMX", "X*MMX", "XXXXX"]
+        problem = MazeProblem(maze)
+        soln = Pathfinder.solve(problem)
+        solnTest = problem.solnTest(soln)
+        print(soln)
+        self.assertTrue(solnTest[1])
+        self.assertEqual(solnTest[0], 6)
+
+    def test_maze8(self):
+        maze = ["XXXXXX", "X*...X", "X...XX", "XXXXGX", "XXXXXX"]
+        problem = MazeProblem(maze)
+        soln = Pathfinder.solve(problem)
+        print(soln)
+        self.assertFalse(soln)
 
 if __name__ == '__main__':
     unittest.main()
