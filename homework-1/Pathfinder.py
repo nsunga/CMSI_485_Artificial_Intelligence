@@ -119,5 +119,48 @@ class PathfinderTests(unittest.TestCase):
         print(soln)
         self.assertFalse(soln)
 
+    def test_maze9(self):
+        maze = ["XXXXXXXXXXXXGX",
+                "X............X",
+                "X.XXXXXXXXXXXX",
+                "X............X",
+                "XXXXXXXXXXXX.X",
+                "X............X",
+                "X.XXXXXXXXXXXX",
+                "X............X",
+                "XXXXXXXXXXXX.X",
+                "X............X",
+                "X.XXXXXXXXXXXX",
+                "X............X",
+                "XXXXXXXXXXXX.X",
+                "X............X",
+                "X.XXXXXXXXXXXX",
+                "X............X",
+                "XXXXXXXXXXXX.X",
+                "X............X",
+                "X.XXXXXXXXXXXX",
+                "X............X",
+                "XXXXXXXXXXXX.X",
+                "X............X",
+                "X.XXXXXXXXXXXX",
+                "X............X",
+                "XXXXXXXXXXXX.X",
+                "X............X",
+                "X.XXXXXXXXXXXX",
+                "X............X",
+                "XXXXXXXXXXXX.X",
+                "X............X",
+                "X.XXXXXXXXXXXX",
+                "X............X",
+                "XXXXXXXXXXXX*X",
+                "XXXXXXXXXXXXXX"]
+        problem = MazeProblem(maze)
+        soln = Pathfinder.solve(problem)
+        solnTest = problem.solnTest(soln)
+        print(soln)
+        self.assertTrue(solnTest[1])
+        self.assertEqual(solnTest[0], 208)
+
+
 if __name__ == '__main__':
     unittest.main()

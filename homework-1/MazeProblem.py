@@ -77,7 +77,7 @@ class MazeProblem:
     # provides the cell-distance to the nearest goal state
     def heuristic(self, state):
         distances = []
-        
+
         for cell in self.goals:
             distances.append(abs(state[0] - cell[0]) + abs(state[1] - cell[1]))
 
@@ -96,23 +96,18 @@ class MazeProblem:
         move_up = maze_row - 1
         move_down = maze_row + 1
 
-        if move_right < len(self.maze[maze_row]):
-            if self.maze[maze_row][move_right] != 'X':
-                transitions_list.append(("R", self.cost((move_right, maze_row)),
-                                        (move_right, maze_row)))
-        if move_left >= 0:
-            if self.maze[maze_row][move_left] != 'X':
-                transitions_list.append(("L", self.cost((move_left, maze_row)),
-                                         (move_left, maze_row)))
-        if move_up >= 0:
-            if self.maze[move_up][maze_col] != 'X':
-                transitions_list.append(("U", self.cost((maze_col, move_up)),
-                                         (maze_col, move_up)))
-        if move_down < len(self.maze):
-            if self.maze[move_down][maze_col] != 'X':
-                transitions_list.append(("D", self.cost((maze_col, move_down)),
-                                         (maze_col, move_down)))
-
+        if move_right < len(self.maze[maze_row]) and self.maze[maze_row][move_right] != 'X':
+            transitions_list.append(("R", self.cost((move_right, maze_row)),
+                                    (move_right, maze_row)))
+        if move_left >= 0 and self.maze[maze_row][move_left] != 'X':
+            transitions_list.append(("L", self.cost((move_left, maze_row)),
+                                     (move_left, maze_row)))
+        if move_up >= 0 and self.maze[move_up][maze_col] != 'X':
+            transitions_list.append(("U", self.cost((maze_col, move_up)),
+                                     (maze_col, move_up)))
+        if move_down < len(self.maze) and self.maze[move_down][maze_col] != 'X':
+            transitions_list.append(("D", self.cost((maze_col, move_down)),
+                                     (maze_col, move_down)))
         return transitions_list
 
     # cost returns the cost of moving onto the given state, and employs
