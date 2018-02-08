@@ -20,6 +20,7 @@ class Pathfinder:
         visited_states = []
         root = SearchTreeNode(problem.initial, None, None, 0,
                             problem.heuristic(problem.initial))
+        node_counter = 1
         temp_node = root
         visited_states.append(temp_node.state)
         while not problem.goalTest(temp_node.state):
@@ -30,6 +31,7 @@ class Pathfinder:
                                         every_tuple[0], temp_node,
                                         every_tuple[1] + temp_node.totalCost,
                                         problem.heuristic(every_tuple[2])))
+                node_counter += 1
 
             for child in temp_node.children:
                 heapq.heappush(priority_queue, child)
@@ -48,6 +50,7 @@ class Pathfinder:
             temp_node = temp_node.parent
 
         path.reverse()
+        print("NUMBER OF NODES: ", node_counter)
         return path
 
 class PathfinderTests(unittest.TestCase):
@@ -120,46 +123,21 @@ class PathfinderTests(unittest.TestCase):
         self.assertFalse(soln)
 
     def test_maze9(self):
-        maze = ["XXXXXXXXXXXXGX",
-                "X............X",
-                "X.XXXXXXXXXXXX",
-                "X............X",
-                "XXXXXXXXXXXX.X",
-                "X............X",
-                "X.XXXXXXXXXXXX",
-                "X............X",
-                "XXXXXXXXXXXX.X",
-                "X............X",
-                "X.XXXXXXXXXXXX",
-                "X............X",
-                "XXXXXXXXXXXX.X",
-                "X............X",
-                "X.XXXXXXXXXXXX",
-                "X............X",
-                "XXXXXXXXXXXX.X",
-                "X............X",
-                "X.XXXXXXXXXXXX",
-                "X............X",
-                "XXXXXXXXXXXX.X",
-                "X............X",
-                "X.XXXXXXXXXXXX",
-                "X............X",
-                "XXXXXXXXXXXX.X",
-                "X............X",
-                "X.XXXXXXXXXXXX",
-                "X............X",
-                "XXXXXXXXXXXX.X",
-                "X............X",
-                "X.XXXXXXXXXXXX",
-                "X............X",
-                "XXXXXXXXXXXX*X",
-                "XXXXXXXXXXXXXX"]
+        maze = ["XXXGX",
+                "X...X",
+                "X.XXX",
+                "X...X",
+                "XXX.X",
+                "X...X",
+                "X.XXX",
+                "X...X",
+                "XXX*X"]
         problem = MazeProblem(maze)
         soln = Pathfinder.solve(problem)
         solnTest = problem.solnTest(soln)
         print(soln)
         self.assertTrue(solnTest[1])
-        self.assertEqual(solnTest[0], 208)
+        self.assertEqual(solnTest[0], 16)
 
 
 if __name__ == '__main__':
