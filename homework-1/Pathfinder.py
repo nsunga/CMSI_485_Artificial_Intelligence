@@ -16,7 +16,6 @@ class Pathfinder:
 
     @staticmethod
     def solve(problem):
-        # TODO: Implement A* graph search!
         priority_queue = []
         visited_states = []
         root = SearchTreeNode(problem.initial, None, None, 0,

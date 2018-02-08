@@ -67,10 +67,6 @@ class MazeProblem:
         print("\n".join(self.maze))
         print("INITIAL PT:", self.initial)
         print("GOAL PTS:", self.goals)
-        # print("DOING INITIAL PT TRANSITIONS:", self.transitions(self.initial))
-        # print("MANHATTAN DISTANCE OF INITIAL:", self.heuristic(self.initial))
-        # print("GOAL PTS:", self.maze[3][1])
-
 
     # goalTest is parameterized by a state, and
     # returns True if the given state is a goal, False otherwise
@@ -80,8 +76,8 @@ class MazeProblem:
     # Implements the Manhattan Distance Heuristic, which (given a state)
     # provides the cell-distance to the nearest goal state
     def heuristic(self, state):
-        # TODO: STILL GOTTA DO IT, or i think its done..
         distances = []
+        
         for cell in self.goals:
             distances.append(abs(state[0] - cell[0]) + abs(state[1] - cell[1]))
 
@@ -92,7 +88,6 @@ class MazeProblem:
     # corresponding to allowable actions of the given state, as well
     # as the next state the action leads to
     def transitions(self, state):
-        # TODO: Implement as intended
         transitions_list = []
         maze_col = state[0]
         maze_row = state[1]
@@ -103,16 +98,20 @@ class MazeProblem:
 
         if move_right < len(self.maze[maze_row]):
             if self.maze[maze_row][move_right] != 'X':
-                transitions_list.append( ("R", self.cost((move_right, maze_row)), (move_right, maze_row)) )
+                transitions_list.append(("R", self.cost((move_right, maze_row)),
+                                        (move_right, maze_row)))
         if move_left >= 0:
             if self.maze[maze_row][move_left] != 'X':
-                transitions_list.append( ("L", self.cost((move_left, maze_row)), (move_left, maze_row)) )
+                transitions_list.append(("L", self.cost((move_left, maze_row)),
+                                         (move_left, maze_row)))
         if move_up >= 0:
             if self.maze[move_up][maze_col] != 'X':
-                transitions_list.append( ("U", self.cost((maze_col, move_up)), (maze_col, move_up)) )
+                transitions_list.append(("U", self.cost((maze_col, move_up)),
+                                         (maze_col, move_up)))
         if move_down < len(self.maze):
             if self.maze[move_down][maze_col] != 'X':
-                transitions_list.append( ("D", self.cost((maze_col, move_down)), (maze_col, move_down)) )
+                transitions_list.append(("D", self.cost((maze_col, move_down)),
+                                         (maze_col, move_down)))
 
         return transitions_list
 

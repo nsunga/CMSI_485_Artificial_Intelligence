@@ -36,7 +36,6 @@ class SearchTreeNode:
         self.totalCost = totalCost
         self.heuristicCost = heuristicCost
 
-    # TODO: Implement rich comparisons
     def __eq__(self, other_node):
         return (self.totalCost + self.heuristicCost) == (other_node.totalCost + other_node.heuristicCost)
 
