@@ -1,0 +1,36 @@
+1. DATA STRUCTURES USED: For the open list, or the frontier, I used a
+priority-queue implemented as a min-heap. That way, whenever a heap.pop() is
+performed, the path with the least amount of cost is always chosen. For the
+closed list, or states that are visited, I essentially use a set. So, every
+time the heap gets the next state, I ensure that next state is one that is
+untraveled. Otherwise, just keep popping and by doing this, creating duplicate
+sub-trees is avoided.
+
+2. MAZE USED: XXXGX
+              X...X
+              X.XXX
+              X...X
+              XXX.X
+              X...X
+              X.XXX
+              X...X
+              XXX*X
+
+A* Search generated 32 nodes for a solution.
+BFS generated 38118 nodes for a solution.
+
+Memory wise, A* search is much better than BFS as long as a good heuristic is
+chosen. In this case, the Manhattan Distance was used, and it turns out that
+A* search is potentially a thousand times better than BFS as maze problems
+scale to larger sizes.
+
+For depth, at least for the same problem, actually scaled to be about the same.
+I added a counter while bubbling up to the root, and A* search found a solution
+at depth = 17, while BFS had depth = 16 with root being depth = 0.
+The math checks out: BFS finds the closest solution whereas A* tries to find the
+closest solution in the quickest manner, and it is dependent on a well chosen
+heuristic. It is easy to assume that the branching factor of BFS is much
+greater than that of A* search's. The Manhattan Distance heuristic gave a solution
+depth less than the optimal one, 16, but stayed close. So, not only is the
+heuristic good at minimizing computational costs, but there definitely exists
+a better heuristic too.

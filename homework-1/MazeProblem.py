@@ -63,10 +63,6 @@ class MazeProblem:
                     self.initial = state
                 if c[1] is "G":
                     self.goals.append(state)
-        print("\n")
-        print("\n".join(self.maze))
-        print("INITIAL PT:", self.initial)
-        print("GOAL PTS:", self.goals)
 
     # goalTest is parameterized by a state, and
     # returns True if the given state is a goal, False otherwise
