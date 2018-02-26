@@ -49,6 +49,12 @@ class MazeClause:
     @staticmethod
     def resolve (c1, c2):
         results = set()
+        for every_prop in c1.props:
+            value_in_c2 = c2.getProp(every_prop)
+            if value_in_c2 != None and value_in_c2 == c1.props[every_prop]:
+                results.update(every_prop, c1.props[every_prop])
+            elif value_in_c2 == None:
+                results.update(every_prop, c1.props[every_prop])
         # TODO: This is currently implemented incorrectly; see
         # spec for details!
         return results
