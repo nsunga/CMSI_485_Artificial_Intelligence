@@ -13,18 +13,26 @@ class MazeClause:
     def __init__ (self, props):
         self.props = {}
         self.valid = False
-        # TODO: Process list of propositions to make a correctly
-        # formatted MazeClause
+
+        for key, value in props:
+            if key in self.props:
+                if self.props[key] != value:
+                    self.valid = True
+                    self.props = {}
+                    break
+            else:
+                self.props[key] = value
+
+        print("THE DICTIONARY: ")
+        print(self.props)
 
     def getProp (self, prop):
         # TODO: This is currently implemented incorrectly; see
         # spec for details!
-        return False
+        return self.props[prop] if prop in self.props else None
 
     def isValid (self):
-        # TODO: This is currently implemented incorrectly; see
-        # spec for details!
-        return False
+        return self.valid
 
     def isEmpty (self):
         # TODO: This is currently implemented incorrectly; see
@@ -56,6 +64,12 @@ class MazeClause:
 class MazeClauseTests(unittest.TestCase):
     def test_mazeprops1(self):
         mc = MazeClause([(("X", (1, 1)), True), (("X", (2, 1)), True), (("Y", (1, 2)), False)])
+        print('\n')
+        print(mc.getProp(("X", (1, 1))))
+        print('\n')
+        print('\n')
+        print(mc.getProp(("X", (1, 6))))
+        print('\n')
         self.assertTrue(mc.getProp(("X", (1, 1))))
         self.assertTrue(mc.getProp(("X", (2, 1))))
         self.assertFalse(mc.getProp(("Y", (1, 2))))
