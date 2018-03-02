@@ -73,20 +73,20 @@ class MazeClause:
                 results.add((key, c2_value))
                 is_valid_mc = MazeClause(results)
                 if is_valid_mc.isValid():
-                    results = set()
+                    results.clear()
                     return results
 
             if c1_value is not None and c1_value == c2_value:
                 results.add((key, c2_value))
                 is_valid_mc = MazeClause(results)
                 if is_valid_mc.isValid():
-                    results = set()
+                    results.clear()
                     return results
             elif c1_value is None:
                 results.add((key, c2_value))
                 is_valid_mc = MazeClause(results)
                 if is_valid_mc.isValid():
-                    results = set()
+                    results.clear()
                     return results
             elif not removed_once:
                 print("removed")
@@ -95,7 +95,7 @@ class MazeClause:
 
         if MazeClause(results) == c1 or MazeClause(results) == c2:
             print("results before hit: ", results)
-            results = set()
+            results.clear()
             print("hit here")
             return results
 
