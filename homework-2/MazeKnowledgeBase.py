@@ -26,15 +26,20 @@ class MazeKnowledgeBase:
         # This is currently implemented incorrectly; see
         # spec for details!
         negated_sentence = set()
-        # print("query: ", query)
+
         for every_prop in query.props:
-            # print("props: ", every_prop)
-            # print("value: ", not query.getProp(every_prop))
             negated_sentence.add((every_prop, not query.getProp(every_prop)))
 
-        print("neg_sent: ", negated_sentence)
         not_alpha = MazeClause(negated_sentence)
-        print("not_alpha: ", not_alpha)
+        kb_with_not_alpha = MazeKnowledgeBase()
+
+        for every_clause in self.clauses:
+            kb_with_not_alpha.tell(every_clause)
+
+        kb_with_not_alpha.tell(not_alpha)
+
+        for every_clause in kb_with_not_alpha.clauses:
+            print("KB: ", every_clause)
         return False
 
 
