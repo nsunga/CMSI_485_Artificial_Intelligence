@@ -57,36 +57,20 @@ class MazeClause:
     @staticmethod
     def resolve (c1, c2):
         results = set()
-        omit = set()
+        removed_once = False
 
         if c1.isValid() or c2.isValid():
             return results(MazeClause([]))
 
         for key in c1.props:
-            c1_value = c1.getProp(key)
-            c2_value = c2.getProp(key)
-
-            if c2_value is not None and c2_value == c1_value:
-                results.add((key, c2_value))
-                print("results ", results)
-                is_valid_mc = MazeClause(results)
-                if is_valid_mc.isValid():
-                    results = set()
-                    return results
-            elif c2_value is None:
-                results.add((key, c1_value))
-                is_valid_mc = MazeClause(results)
-                if is_valid_mc.isValid():
-                    results = set()
-                    return results
+            results.add((key, c1.getProp(key)))
 
         for key in c2.props:
             c1_value = c1.getProp(key)
             c2_value = c2.getProp(key)
 
             if c1_value is not None and c1_value == c2_value:
-                results.add((key, c1_value))
-                print("results c2 loop", results)
+                results.add((key, c2_value))
                 is_valid_mc = MazeClause(results)
                 if is_valid_mc.isValid():
                     results = set()
@@ -97,14 +81,72 @@ class MazeClause:
                 if is_valid_mc.isValid():
                     results = set()
                     return results
+            elif not removed_once:
+                print("removed")
+                removed_once = True
+                results.remove((key, c1_value))
+            else:
+                results.add((key, c2_value))
+                is_valid_mc = MazeClause(results)
+                if is_valid_mc.isValid():
+                    results = set()
+                    return results
 
-        # best to go over this condition
         if MazeClause(results) == c1 or MazeClause(results) == c2:
+            print("results before hit: ", results)
             results = set()
+            print("hit here")
             return results
-        if len(results) == 0:
-            results.add(MazeClause([]))
-            return results
+
+        # for key in c2.props:
+        #
+
+        # for key in c1.props:
+        #     c1_value = c1.getProp(key)
+        #     c2_value = c2.getProp(key)
+        #
+        #     if c2_value is not None and c2_value == c1_value:
+        #         results.add((key, c2_value))
+        #         # print("results ", results)
+        #         is_valid_mc = MazeClause(results)
+        #         if is_valid_mc.isValid():
+        #             results = set()
+        #             return results
+        #     elif c2_value is None:
+        #         results.add((key, c1_value))
+        #         is_valid_mc = MazeClause(results)
+        #         if is_valid_mc.isValid():
+        #             results = set()
+        #             return results
+        #
+        # for key in c2.props:
+        #     c1_value = c1.getProp(key)
+        #     c2_value = c2.getProp(key)
+        #
+        #     if c1_value is not None and c1_value == c2_value:
+        #         results.add((key, c1_value))
+        #         # print("results c2 loop", results)
+        #         is_valid_mc = MazeClause(results)
+        #         if is_valid_mc.isValid():
+        #             results = set()
+        #             return results
+        #     elif c1_value is None:
+        #         results.add((key, c2_value))
+        #         is_valid_mc = MazeClause(results)
+        #         if is_valid_mc.isValid():
+        #             results = set()
+        #             return results
+        #
+        # # best to go over this condition
+        # if MazeClause(results) == c1 or MazeClause(results) == c2:
+        #     print("results before hit: ", results)
+        #     results = set()
+        #     print("hit here")
+        #     return results
+        # if len(results) == 0:
+        #     print("was zero")
+        #     # results.add(MazeClause([]))
+        #     return results
 
         print("final return: ", results)
         final_result = set()
@@ -158,25 +200,25 @@ class MazeClauseTests(unittest.TestCase):
         self.assertEqual(len(res), 1)
         print("res", res)
         self.assertTrue(MazeClause([(("Y", (1, 1)), True), (("Y", (2, 2)), True)]) in res)
-    #
-    # def test_mazeprops8(self):
-    #     mc1 = MazeClause([(("X", (1, 1)), True), (("Y", (1, 1)), False)])
-    #     mc2 = MazeClause([(("X", (1, 1)), False), (("Y", (1, 1)), True)])
-    #     res = MazeClause.resolve(mc1, mc2)
-    #     self.assertEqual(len(res), 0)
 
-    # def test_mazeprops9(self):
-    #     mc1 = MazeClause([(("X", (1, 1)), True), (("Y", (1, 1)), False), (("Z", (1, 1)), True)])
-    #     mc2 = MazeClause([(("X", (1, 1)), False), (("Y", (1, 1)), True), (("W", (1, 1)), False)])
-    #     res = MazeClause.resolve(mc1, mc2)
-    #     self.assertEqual(len(res), 0)
-    #
-    # def test_mazeprops10(self):
-    #     mc1 = MazeClause([(("X", (1, 1)), True), (("Y", (1, 1)), False), (("Z", (1, 1)), True)])
-    #     mc2 = MazeClause([(("X", (1, 1)), False), (("Y", (1, 1)), False), (("W", (1, 1)), False)])
-    #     res = MazeClause.resolve(mc1, mc2)
-    #     self.assertEqual(len(res), 1)
-    #     self.assertTrue(MazeClause([(("Y", (1, 1)), False), (("Z", (1, 1)), True), (("W", (1, 1)), False)]) in res)
+    def test_mazeprops8(self):
+        mc1 = MazeClause([(("X", (1, 1)), True), (("Y", (1, 1)), False)])
+        mc2 = MazeClause([(("X", (1, 1)), False), (("Y", (1, 1)), True)])
+        res = MazeClause.resolve(mc1, mc2)
+        self.assertEqual(len(res), 0)
+
+    def test_mazeprops9(self):
+        mc1 = MazeClause([(("X", (1, 1)), True), (("Y", (1, 1)), False), (("Z", (1, 1)), True)])
+        mc2 = MazeClause([(("X", (1, 1)), False), (("Y", (1, 1)), True), (("W", (1, 1)), False)])
+        res = MazeClause.resolve(mc1, mc2)
+        self.assertEqual(len(res), 0)
+
+    def test_mazeprops10(self):
+        mc1 = MazeClause([(("X", (1, 1)), True), (("Y", (1, 1)), False), (("Z", (1, 1)), True)])
+        mc2 = MazeClause([(("X", (1, 1)), False), (("Y", (1, 1)), False), (("W", (1, 1)), False)])
+        res = MazeClause.resolve(mc1, mc2)
+        self.assertEqual(len(res), 1)
+        self.assertTrue(MazeClause([(("Y", (1, 1)), False), (("Z", (1, 1)), True), (("W", (1, 1)), False)]) in res)
     # ~X ^ X Resolve -> self.props empty, self.valid is false
 if __name__ == "__main__":
     unittest.main()
