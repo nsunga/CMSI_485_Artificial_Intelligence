@@ -23,6 +23,7 @@ class MazeClause:
             else:
                 self.props[key] = value
 
+        # print("props: ", self.props)
         # if len(self.props) == 1:
         #     for key, value in props:
         #         if self.props[key] == True:
@@ -98,71 +99,74 @@ class MazeClause:
 
         inferred_result = set()
         inferred_result.add(MazeClause(results))
+        # print("results: ", results)
+        # print("inferred_result: ", inferred_result)
         return inferred_result
 
 
 class MazeClauseTests(unittest.TestCase):
-    def test_mazeprops1(self):
-        mc = MazeClause([(("X", (1, 1)), True), (("X", (2, 1)), True), (("Y", (1, 2)), False)])
-        self.assertTrue(mc.getProp(("X", (1, 1))))
-        self.assertTrue(mc.getProp(("X", (2, 1))))
-        self.assertFalse(mc.getProp(("Y", (1, 2))))
-        self.assertTrue(mc.getProp(("X", (2, 2))) is None)
-        self.assertFalse(mc.isEmpty())
-
-    def test_mazeprops2(self):
-        mc = MazeClause([(("X", (1, 1)), True), (("X", (1, 1)), True)])
-        self.assertTrue(mc.getProp(("X", (1, 1))))
-        self.assertFalse(mc.isEmpty())
-
-    def test_mazeprops3(self):
-        mc = MazeClause([(("X", (1, 1)), True), (("Y", (2, 1)), True), (("X", (1, 1)), False)])
-        self.assertTrue(mc.isValid())
-        self.assertTrue(mc.getProp(("X", (1, 1))) is None)
-        self.assertFalse(mc.isEmpty())
-
-    def test_mazeprops4(self):
-        mc = MazeClause([])
-        self.assertFalse(mc.isValid())
-        self.assertTrue(mc.isEmpty())
-
-    def test_mazeprops5(self):
-        mc1 = MazeClause([(("X", (1, 1)), True)])
-        mc2 = MazeClause([(("X", (1, 1)), True)])
-        res = MazeClause.resolve(mc1, mc2)
-        self.assertEqual(len(res), 0)
-
-    def test_mazeprops6(self):
-        mc1 = MazeClause([(("X", (1, 1)), True)])
-        mc2 = MazeClause([(("X", (1, 1)), False)])
-        mc1.getProp(("X", (1, 1)))
-        res = MazeClause.resolve(mc1, mc2)
-        self.assertEqual(len(res), 1)
-        self.assertTrue(MazeClause([]) in res)
-
-    def test_mazeprops7(self):
-        mc1 = MazeClause([(("X", (1, 1)), True), (("Y", (1, 1)), True)])
-        mc2 = MazeClause([(("X", (1, 1)), False), (("Y", (2, 2)), True)])
-        res = MazeClause.resolve(mc1, mc2)
-        self.assertEqual(len(res), 1)
-        self.assertTrue(MazeClause([(("Y", (1, 1)), True), (("Y", (2, 2)), True)]) in res)
-
-    def test_mazeprops8(self):
-        mc1 = MazeClause([(("X", (1, 1)), True), (("Y", (1, 1)), False)])
-        mc2 = MazeClause([(("X", (1, 1)), False), (("Y", (1, 1)), True)])
-        res = MazeClause.resolve(mc1, mc2)
-        self.assertEqual(len(res), 0)
-
-    def test_mazeprops9(self):
-        mc1 = MazeClause([(("X", (1, 1)), True), (("Y", (1, 1)), False), (("Z", (1, 1)), True)])
-        mc2 = MazeClause([(("X", (1, 1)), False), (("Y", (1, 1)), True), (("W", (1, 1)), False)])
-        res = MazeClause.resolve(mc1, mc2)
-        self.assertEqual(len(res), 0)
+    # def test_mazeprops1(self):
+    #     mc = MazeClause([(("X", (1, 1)), True), (("X", (2, 1)), True), (("Y", (1, 2)), False)])
+    #     self.assertTrue(mc.getProp(("X", (1, 1))))
+    #     self.assertTrue(mc.getProp(("X", (2, 1))))
+    #     self.assertFalse(mc.getProp(("Y", (1, 2))))
+    #     self.assertTrue(mc.getProp(("X", (2, 2))) is None)
+    #     self.assertFalse(mc.isEmpty())
+    #
+    # def test_mazeprops2(self):
+    #     mc = MazeClause([(("X", (1, 1)), True), (("X", (1, 1)), True)])
+    #     self.assertTrue(mc.getProp(("X", (1, 1))))
+    #     self.assertFalse(mc.isEmpty())
+    #
+    # def test_mazeprops3(self):
+    #     mc = MazeClause([(("X", (1, 1)), True), (("Y", (2, 1)), True), (("X", (1, 1)), False)])
+    #     self.assertTrue(mc.isValid())
+    #     self.assertTrue(mc.getProp(("X", (1, 1))) is None)
+    #     self.assertFalse(mc.isEmpty())
+    #
+    # def test_mazeprops4(self):
+    #     mc = MazeClause([])
+    #     self.assertFalse(mc.isValid())
+    #     self.assertTrue(mc.isEmpty())
+    #
+    # def test_mazeprops5(self):
+    #     mc1 = MazeClause([(("X", (1, 1)), True)])
+    #     mc2 = MazeClause([(("X", (1, 1)), True)])
+    #     res = MazeClause.resolve(mc1, mc2)
+    #     self.assertEqual(len(res), 0)
+    #
+    # def test_mazeprops6(self):
+    #     mc1 = MazeClause([(("X", (1, 1)), True)])
+    #     mc2 = MazeClause([(("X", (1, 1)), False)])
+    #     mc1.getProp(("X", (1, 1)))
+    #     res = MazeClause.resolve(mc1, mc2)
+    #     self.assertEqual(len(res), 1)
+    #     self.assertTrue(MazeClause([]) in res)
+    #
+    # def test_mazeprops7(self):
+    #     mc1 = MazeClause([(("X", (1, 1)), True), (("Y", (1, 1)), True)])
+    #     mc2 = MazeClause([(("X", (1, 1)), False), (("Y", (2, 2)), True)])
+    #     res = MazeClause.resolve(mc1, mc2)
+    #     self.assertEqual(len(res), 1)
+    #     self.assertTrue(MazeClause([(("Y", (1, 1)), True), (("Y", (2, 2)), True)]) in res)
+    #
+    # def test_mazeprops8(self):
+    #     mc1 = MazeClause([(("X", (1, 1)), True), (("Y", (1, 1)), False)])
+    #     mc2 = MazeClause([(("X", (1, 1)), False), (("Y", (1, 1)), True)])
+    #     res = MazeClause.resolve(mc1, mc2)
+    #     self.assertEqual(len(res), 0)
+    #
+    # def test_mazeprops9(self):
+    #     mc1 = MazeClause([(("X", (1, 1)), True), (("Y", (1, 1)), False), (("Z", (1, 1)), True)])
+    #     mc2 = MazeClause([(("X", (1, 1)), False), (("Y", (1, 1)), True), (("W", (1, 1)), False)])
+    #     res = MazeClause.resolve(mc1, mc2)
+    #     self.assertEqual(len(res), 0)
 
     def test_mazeprops10(self):
         mc1 = MazeClause([(("X", (1, 1)), True), (("Y", (1, 1)), False), (("Z", (1, 1)), True)])
         mc2 = MazeClause([(("X", (1, 1)), False), (("Y", (1, 1)), False), (("W", (1, 1)), False)])
         res = MazeClause.resolve(mc1, mc2)
+        print("res: ", res)
         self.assertEqual(len(res), 1)
         self.assertTrue(MazeClause([(("Y", (1, 1)), False), (("Z", (1, 1)), True), (("W", (1, 1)), False)]) in res)
     # ~X ^ X Resolve -> self.props empty, self.valid is false
