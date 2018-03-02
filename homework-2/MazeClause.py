@@ -69,6 +69,13 @@ class MazeClause:
             c1_value = c1.getProp(key)
             c2_value = c2.getProp(key)
 
+            if removed_once and c1_value != c2_value:
+                results.add((key, c2_value))
+                is_valid_mc = MazeClause(results)
+                if is_valid_mc.isValid():
+                    results = set()
+                    return results
+
             if c1_value is not None and c1_value == c2_value:
                 results.add((key, c2_value))
                 is_valid_mc = MazeClause(results)
@@ -85,68 +92,12 @@ class MazeClause:
                 print("removed")
                 removed_once = True
                 results.remove((key, c1_value))
-            else:
-                results.add((key, c2_value))
-                is_valid_mc = MazeClause(results)
-                if is_valid_mc.isValid():
-                    results = set()
-                    return results
 
         if MazeClause(results) == c1 or MazeClause(results) == c2:
             print("results before hit: ", results)
             results = set()
             print("hit here")
             return results
-
-        # for key in c2.props:
-        #
-
-        # for key in c1.props:
-        #     c1_value = c1.getProp(key)
-        #     c2_value = c2.getProp(key)
-        #
-        #     if c2_value is not None and c2_value == c1_value:
-        #         results.add((key, c2_value))
-        #         # print("results ", results)
-        #         is_valid_mc = MazeClause(results)
-        #         if is_valid_mc.isValid():
-        #             results = set()
-        #             return results
-        #     elif c2_value is None:
-        #         results.add((key, c1_value))
-        #         is_valid_mc = MazeClause(results)
-        #         if is_valid_mc.isValid():
-        #             results = set()
-        #             return results
-        #
-        # for key in c2.props:
-        #     c1_value = c1.getProp(key)
-        #     c2_value = c2.getProp(key)
-        #
-        #     if c1_value is not None and c1_value == c2_value:
-        #         results.add((key, c1_value))
-        #         # print("results c2 loop", results)
-        #         is_valid_mc = MazeClause(results)
-        #         if is_valid_mc.isValid():
-        #             results = set()
-        #             return results
-        #     elif c1_value is None:
-        #         results.add((key, c2_value))
-        #         is_valid_mc = MazeClause(results)
-        #         if is_valid_mc.isValid():
-        #             results = set()
-        #             return results
-        #
-        # # best to go over this condition
-        # if MazeClause(results) == c1 or MazeClause(results) == c2:
-        #     print("results before hit: ", results)
-        #     results = set()
-        #     print("hit here")
-        #     return results
-        # if len(results) == 0:
-        #     print("was zero")
-        #     # results.add(MazeClause([]))
-        #     return results
 
         print("final return: ", results)
         final_result = set()
