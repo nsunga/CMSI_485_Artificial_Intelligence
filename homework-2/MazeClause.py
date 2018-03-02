@@ -61,22 +61,13 @@ class MazeClause:
         if c1.isValid() and c2.isValid():
             return results
 
-        print('c1.props: ', c1.props)
-        for key in c1.props:
-            print(key, '\n')
-
-        for key in c1.props:
-            value_in_c2 = c2.getProp(key)
-            value_in_c1 = c1.getProp(key)
-            if value_in_c2 != None and value_in_c2 == value_in_c1:
-                print('added')
-                results.add((key, value))
-            elif value_in_c2 == None:
-                print('added in none')
-                results.add((key, value))
-
-        if len(results) == 0:
-            return results.add(None)
+        for key, value in c1.props:
+            c2_value = c2.getProp((key, value))
+            if c2_value is not None and c2_value != value:
+                results = set()
+                results.add(MazeClause([]))
+                print("results length: ", len(results))
+                return results
         # TODO: This is currently implemented incorrectly; see
         # spec for details!
         return results
@@ -116,17 +107,10 @@ class MazeClauseTests(unittest.TestCase):
     def test_mazeprops6(self):
         mc1 = MazeClause([(("X", (1, 1)), True)])
         mc2 = MazeClause([(("X", (1, 1)), False)])
-        # print('fuck you')
-        # mc1.getProp(("X", (1, 1)))
-        # print('fuck you')
+        mc1.getProp(("X", (1, 1)))
         res = MazeClause.resolve(mc1, mc2)
         self.assertEqual(len(res), 1)
-        print('fuck you')
-        print(res)
-        print('fuck you')
-        print('fuck you')
         print(MazeClause([]))
-        print('fuck you')
         self.assertTrue(MazeClause([]) in res)
 
     # def test_mazeprops7(self):
@@ -154,6 +138,6 @@ class MazeClauseTests(unittest.TestCase):
     #     res = MazeClause.resolve(mc1, mc2)
     #     self.assertEqual(len(res), 1)
     #     self.assertTrue(MazeClause([(("Y", (1, 1)), False), (("Z", (1, 1)), True), (("W", (1, 1)), False)]) in res)
-
+    # ~X ^ X Resolve -> self.props empty, self.valid is false
 if __name__ == "__main__":
     unittest.main()
