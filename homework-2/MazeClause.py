@@ -89,20 +89,16 @@ class MazeClause:
                     results.clear()
                     return results
             elif not removed_once:
-                print("removed")
                 removed_once = True
                 results.remove((key, c1_value))
 
         if MazeClause(results) == c1 or MazeClause(results) == c2:
-            print("results before hit: ", results)
             results.clear()
-            print("hit here")
             return results
 
-        print("final return: ", results)
-        final_result = set()
-        final_result.add(MazeClause(results))
-        return final_result
+        inferred_result = set()
+        inferred_result.add(MazeClause(results))
+        return inferred_result
 
 
 class MazeClauseTests(unittest.TestCase):
@@ -149,7 +145,6 @@ class MazeClauseTests(unittest.TestCase):
         mc2 = MazeClause([(("X", (1, 1)), False), (("Y", (2, 2)), True)])
         res = MazeClause.resolve(mc1, mc2)
         self.assertEqual(len(res), 1)
-        print("res", res)
         self.assertTrue(MazeClause([(("Y", (1, 1)), True), (("Y", (2, 2)), True)]) in res)
 
     def test_mazeprops8(self):
