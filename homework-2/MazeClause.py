@@ -1,4 +1,5 @@
 '''
+AUTHOR: NICK SUNGA
 MazeClause.py
 
 Specifies a Propositional Logic Clause formatted specifically
@@ -42,12 +43,6 @@ class MazeClause:
 
     def __str__ (self):
         return str(self.props)
-
-    # Hint: Specify a __str__ method for ease of debugging (this
-    # will allow you to "print" a MazeClause directly to inspect
-    # its composite literals)
-    # def __str__ (self):
-    #     return ""
 
     @staticmethod
     def resolve (c1, c2):
